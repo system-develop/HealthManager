@@ -69,4 +69,6 @@ async def on_message(message):
         await message.channel.send('嗅覚異常メッセージ')
 
 
-client.run('NzY2MTczNDg2Nzc0NjE2MDc1.X4fgqg.QFiMQHxjWoRF6ZH6S3FDzNwqUxk')
+client.run('')
+
+# gitにあげる前にトークンは消すように
