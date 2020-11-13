@@ -1,0 +1,1 @@
+{"help_manual":[{"name":"!health", "describe":"!health 対応する絵文字\n体調を教えていただきコマンド"}, {"name":"!temp", "describe":"!temp 体温の数値\n体温を教えていただきコマンド"},{"name":"!elist", "describe":"!elist \n対応する絵文字の情報を返す"}, {"name":"!mylist", "describe":"!mylist \n自分が投稿した過去の情報を返す"}, {"name":"!cmdlist", "describe":"!cmdlist \n使えるコマンドの一覧を返す"}]}
