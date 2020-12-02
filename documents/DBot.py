@@ -1,6 +1,21 @@
 import discord
+import json
+import mysql.connector
+from discord.ext import commands
+from discord.utils import find
+intents = discord.Intents.default()
+intents.members = True
 import random
 import re
+
+ connect to database
+ mydb = mysql.connector.connect(
+   host="localhost3306",
+   user="root",
+   password="health_manager428",
+   database="health_record"
+
+
 link_regex = re.compile(
             r'^https?://(?:(ptb|canary)\.)?discordapp\.com/channels/'
             r'(?:([0-9]{15,21})|(@me))'
@@ -20,6 +35,8 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    print(message.author.id)
+
     if message.author == client.user:
         return
 
@@ -27,6 +44,7 @@ async def on_message(message):
         content = random.choice(random_contents)
         # メッセージが送られてきたチャンネルに送る
         await message.channel.send(content)
+        print("%d" % (message.author.id))
 
     elif message.content == "!health 😷":
 
@@ -67,6 +85,26 @@ async def on_message(message):
     elif message.content == "!health 👃":
 
         await message.channel.send('嗅覚異常メッセージ')
+
+    if message.content == '!cmdlist':
+        await message.channel.send\
+        ('``` !health_対応する絵文字 → 現在の体調を絵文字で表す。\
+        \n !temp_〇〇.〇 → 現在の体温を記録する。\
+        \n !elist → !healthの対応する絵文字を表示する。\
+        \n !mylist → 自分が投稿した過去の情報を返す。```')
+
+    if message.content == '!elist':
+        await message.channel.send\
+        ('``` 異常なし 😄\
+        \n 咳 😷\
+        \n 鼻水 🤧\
+        \n 喉の痛み 😫\
+        \n 体のだるさ 😔\
+        \n 腹痛 😰\
+        \n 下痢 😖\
+        \n 頭痛 🤕\
+        \n 味覚異常 👅\
+        \n 嗅覚異常 👃```')
 
 
 client.run('')
