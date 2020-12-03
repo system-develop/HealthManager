@@ -18,6 +18,11 @@ url = urlparse('mysql://user:pass@localhost:3306/health_manager')
         user="root",
         password="health_manager428",
         database="health_manager"
+    )
+
+    conn.ping(reconnect=True)
+
+    print(conn.is.connected())
 
 
 link_regex = re.compile(
@@ -50,45 +55,132 @@ async def on_message(message):
         await message.channel.send(content)
         print("%d" % (message.author.id))
 
+        try:
+        cur.execute('INSERT INTO health_manager(manager_id,date_create,customer_id) VALUES (default,sysdate,%d)')
+        conn.commit()
+        except:
+        conn.rollback()
+        raise
+
     elif message.content == "!health 😷":
 
         await message.channel.send('咳メッセージ')
+        print("%d" % (message.author.id))
+
+        try:
+        cur.execute('INSERT INTO health_manager(manager_id,date_create,customer_id,cough) VALUES (default,sysdate,%d,yes);')
+        conn.commit()
+        except:
+        conn.rollback()
+        raise
 
     elif message.content == "!health 🤐":
 
         await message.channel.send('息苦しさメッセージ')
+        print("%d" % (message.author.id))
+
+        try:
+        cur.execute('INSERT INTO health_manager(manager_id,date_create,customer_id,choking) VALUES (default,sysdate,%d,yes);')
+        conn.commit()
+        except:
+        conn.rollback()
+        raise
 
     elif message.content == "!health 🤧":
 
         await message.channel.send('鼻水メッセージ')
+        print("%d" % (message.author.id))
+
+        try:
+        cur.execute('INSERT INTO health_manager(manager_id,date_create,customer_id,nose) VALUES (default,sysdate,%d,yes);')
+        conn.commit()
+        except:
+        conn.rollback()
+        raise
 
     elif message.content == "!health 😵":
 
         await message.channel.send('喉の痛みメッセージ')
+        print("%d" % (message.author.id))
+
+        try:
+        cur.execute('INSERT INTO health_manager(manager_id,date_create,customer_id,throat) VALUES (default,sysdate,%d,yes);')
+        conn.commit()
+        except:
+        conn.rollback()
+        raise
 
     elif message.content == "!health 👿":
 
         await message.channel.send('体のだるさメッセージ')
+        print("%d" % (message.author.id))
+
+        try:
+        cur.execute('INSERT INTO health_manager(manager_id,date_create,customer_id,listness) VALUES (default,sysdate,%d,yes);')
+        conn.commit()
+        except:
+        conn.rollback()
+        raise
 
     elif message.content == "!health 🥶":
 
         await message.channel.send('腹痛メッセージ')
+        print("%d" % (message.author.id))
+
+        try:
+        cur.execute('INSERT INTO health_manager(manager_id,date_create,customer_id,stomachache) VALUES (default,sysdate,%d,yes);')
+        conn.commit()
+        except:
+        conn.rollback()
+        raise
 
     elif message.content == "!health 🤢":
 
         await message.channel.send('下痢メッセージ')
+        print("%d" % (message.author.id))
+
+        try:
+        cur.execute('INSERT INTO health_manager(manager_id,date_create,customer_id,diarrhea) VALUES (default,sysdate,%d,yes);')
+        conn.commit()
+        except:
+        conn.rollback()
+        raise
 
     elif message.content == "!health 🤕":
 
         await message.channel.send('頭痛メッセージ')
+        print("%d" % (message.author.id))
+
+        try:
+        cur.execute('INSERT INTO health_manager(manager_id,date_create,customer_id,headache) VALUES (default,sysdate,%d,yes);')
+        conn.commit()
+        except:
+        conn.rollback()
+        raise
 
     elif message.content == "!health 👅":
 
         await message.channel.send('味覚異常メッセージ')
+        print("%d" % (message.author.id))
+
+        try:
+        cur.execute('INSERT INTO health_manager(manager_id,date_create,customer_id,dysgeusia) VALUES (default,sysdate,%d,yes);')
+        conn.commit()
+        except:
+        conn.rollback()
+        raise
 
     elif message.content == "!health 👃":
 
         await message.channel.send('嗅覚異常メッセージ')
+        print("%d" % (message.author.id))
+
+        try:
+        cur.execute('INSERT INTO health_manager(manager_id,date_create,customer_id,dysosmia) VALUES (default,sysdate,%d,yes);')
+        conn.commit()
+        except:
+        conn.rollback()
+        raise
 
     if message.content == '!cmdlist':
         await message.channel.send\
