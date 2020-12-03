@@ -1,5 +1,6 @@
 import discord
 import json
+from urllib.parse import urlparse
 import mysql.connector
 from discord.ext import commands
 from discord.utils import find
@@ -8,12 +9,15 @@ intents.members = True
 import random
 import re
 
- connect to database
- mydb = mysql.connector.connect(
-   host="localhost3306",
-   user="root",
-   password="health_manager428",
-   database="health_record"
+url = urlparse('mysql://user:pass@localhost:3306/health_manager')
+
+ # コネクションの作成
+    conn = mysql.connector.connect(
+        host="localhost",
+        port='3306'
+        user="root",
+        password="health_manager428",
+        database="health_manager"
 
 
 link_regex = re.compile(
