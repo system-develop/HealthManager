@@ -1,6 +1,7 @@
 import discord
 import json
 import random
+import datetime
 import re
 import mysql.connector as db
 import config
@@ -24,6 +25,8 @@ conn = db.connect(
 conn.ping(reconnect=True)
 #接続確認
 print(conn.is_connected())
+#省略
+cur = conn.cursor()
 
 link_regex = re.compile(
     r'^https?://(?:(ptb|canary)\.)?discordapp\.com/channels/'
@@ -37,28 +40,38 @@ client = discord.Client()
 random_contents = [
     "元気そうで何よりです。その調子で健康を維持しましょう",
     "今の時期、健康第一が何よりモットーです。その心がけをこれからも",
-    "(｀･ω･´)(｀･ω･´)(｀･ω･´)(｀･ω･´)",
+    "(｀･ω･´)",
 ]
 
 @client.event
 async def on_ready():
-    print('私は {0.user} で活動を始めたぞ。おや？ご不満かい？'.format(client))
+    print('私は {0.user} です。'.format(client))
 
 @client.event
 async def on_message(message):
-    print(message.author.id)
 
     if message.author == client.user:
         return
 
-    if message.content == "!health 😄":
+    if message.content == "!health 😄": #!healthから始まるコマンドを１つのmessage.contentにまとめる
         content = random.choice(random_contents)
         # メッセージが送られてきたチャンネルに送る
         await message.channel.send(content)
         print("%d" % (message.author.id))
 
         try:
-            cur.execute('INSERT INTO health_manager(manager_id, date_create, customer_id) VALUES (default,sysdate,%d)')
+            customer = [
+                (str(message.author.id), 0, 'テスト')
+            ]
+            health = [
+                (datetime.datetime.today(), )
+            ]
+            temp = [
+                discord.Message.created_at
+            ]
+            cur.executemany('insert into customer (customer_name, admin_flag, remark) VALUES (%s, %s, %s)', customer)
+            cur.executemany('insert into health () VALUES (%s, %s, %s)', customer)
+            cur.executemany('insert into temp () VALUES (%s, %s, %s)', customer)
             conn.commit()
         except:
             conn.rollback()
@@ -186,4 +199,5 @@ async def on_message(message):
 
 
 client.run(config.TKN)
+cur.close()
 conn.close()
