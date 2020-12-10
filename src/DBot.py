@@ -70,8 +70,8 @@ async def on_message(message):
                 discord.Message.created_at
             ]
             cur.executemany('insert into customer (customer_name, admin_flag, remark) VALUES (%s, %s, %s)', customer)
-            cur.executemany('insert into health () VALUES (%s, %s, %s)', customer)
-            cur.executemany('insert into temp () VALUES (%s, %s, %s)', customer)
+            # cur.executemany('insert into health () VALUES (%s, %s, %s)', customer)
+            # cur.executemany('insert into temp () VALUES (%s, %s, %s)', customer)
             conn.commit()
         except:
             conn.rollback()
@@ -81,7 +81,7 @@ async def on_message(message):
         await message.channel.send('咳メッセージ')
         print("%d" % (message.author.id))
         try:
-            cur.execute('INSERT INTO health_manager(manager_id,date_create,customer_id,cough) VALUES (default,sysdate,%d,yes);')
+            cur.execute('INSERT INTO health(manager_id,date_create,customer_id,cough) VALUES (default,sysdate,%d,yes);')
             conn.commit()
         except:
             conn.rollback()
@@ -91,7 +91,7 @@ async def on_message(message):
         await message.channel.send('息苦しさメッセージ')
         print("%d" % (message.author.id))
         try:
-            cur.execute('INSERT INTO health_manager(manager_id,date_create,customer_id,choking) VALUES (default,sysdate,%d,yes);')
+            cur.execute('INSERT INTO health(manager_id,date_create,customer_id,choking) VALUES (default,sysdate,%d,yes);')
             conn.commit()
         except:
             conn.rollback()
@@ -101,7 +101,7 @@ async def on_message(message):
         await message.channel.send('鼻水メッセージ')
         print("%d" % (message.author.id))
         try:
-            cur.execute('INSERT INTO health_manager(manager_id,date_create,customer_id,nose) VALUES (default,sysdate,%d,yes);')
+            cur.execute('INSERT INTO health(manager_id,date_create,customer_id,nose) VALUES (default,sysdate,%d,yes);')
             conn.commit()
         except:
             conn.rollback()
@@ -111,7 +111,7 @@ async def on_message(message):
         await message.channel.send('喉の痛みメッセージ')
         print("%d" % (message.author.id))
         try:
-            cur.execute('INSERT INTO health_manager(manager_id,date_create,customer_id,throat) VALUES (default,sysdate,%d,yes);')
+            cur.execute('INSERT INTO health(manager_id,date_create,customer_id,throat) VALUES (default,sysdate,%d,yes);')
             conn.commit()
         except:
             conn.rollback()
@@ -121,7 +121,7 @@ async def on_message(message):
         await message.channel.send('体のだるさメッセージ')
         print("%d" % (message.author.id))
         try:
-            cur.execute('INSERT INTO health_manager(manager_id,date_create,customer_id,listness) VALUES (default,sysdate,%d,yes);')
+            cur.execute('INSERT INTO health(manager_id,date_create,customer_id,listness) VALUES (default,sysdate,%d,yes);')
             conn.commit()
         except:
             conn.rollback()
@@ -131,7 +131,7 @@ async def on_message(message):
         await message.channel.send('腹痛メッセージ')
         print("%d" % (message.author.id))
         try:
-            cur.execute('INSERT INTO health_manager(manager_id,date_create,customer_id,stomachache) VALUES (default,sysdate,%d,yes);')
+            cur.execute('INSERT INTO health(manager_id,date_create,customer_id,stomachache) VALUES (default,sysdate,%d,yes);')
             conn.commit()
         except:
             conn.rollback()
@@ -141,7 +141,7 @@ async def on_message(message):
         await message.channel.send('下痢メッセージ')
         print("%d" % (message.author.id))
         try:
-            cur.execute('INSERT INTO health_manager(manager_id,date_create,customer_id,diarrhea) VALUES (default,sysdate,%d,yes);')
+            cur.execute('INSERT INTO health(manager_id,date_create,customer_id,diarrhea) VALUES (default,sysdate,%d,yes);')
             conn.commit()
         except:
             conn.rollback()
@@ -151,7 +151,7 @@ async def on_message(message):
         await message.channel.send('頭痛メッセージ')
         print("%d" % (message.author.id))
         try:
-            cur.execute('INSERT INTO health_manager(manager_id,date_create,customer_id,headache) VALUES (default,sysdate,%d,yes);')
+            cur.execute('INSERT INTO health(manager_id,date_create,customer_id,headache) VALUES (default,sysdate,%d,yes);')
             conn.commit()
         except:
             conn.rollback()
@@ -161,7 +161,7 @@ async def on_message(message):
         await message.channel.send('味覚異常メッセージ')
         print("%d" % (message.author.id))
         try:
-            cur.execute('INSERT INTO health_manager(manager_id,date_create,customer_id,dysgeusia) VALUES (default,sysdate,%d,yes);')
+            cur.execute('INSERT INTO health(manager_id,date_create,customer_id,dysgeusia) VALUES (default,sysdate,%d,yes);')
             conn.commit()
         except:
             conn.rollback()
@@ -171,7 +171,7 @@ async def on_message(message):
         await message.channel.send('嗅覚異常メッセージ')
         print("%d" % (message.author.id))
         try:
-            cur.execute('INSERT INTO health_manager(manager_id,date_create,customer_id,dysosmia) VALUES (default,sysdate,%d,yes);')
+            cur.execute('INSERT INTO health(manager_id,date_create,customer_id,dysosmia) VALUES (default,sysdate,%d,yes);')
             conn.commit()
         except:
             conn.rollback()
