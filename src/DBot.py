@@ -60,7 +60,7 @@ async def on_message(message):
 
         try:
             customer = [
-                (message.author.id, message.author.display_name, 0, 'テスト')
+                (message.author.id, message.author.display_name,　'テスト')
             ]
             health = [
                 (str(message.author.id), 1)
@@ -68,7 +68,7 @@ async def on_message(message):
             temp = [
                 (discord.Message.created_at)
             ]
-            cur.executemany('insert ignore into customer (customer_id, customer_name, admin_flag, remark) VALUES (%s, %s, %s, %s)', customer)
+            cur.executemany('insert ignore into customer (customer_id, customer_name, remark) VALUES (%s, %s, %s)', customer)
             # cur.executemany('insert into health () VALUES (%s, %s, %s)', customer)
             # cur.executemany('insert into temp () VALUES (%s, %s, %s)', customer)
             conn.commit()

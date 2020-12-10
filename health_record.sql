@@ -23,11 +23,11 @@ DROP TABLE IF EXISTS `customer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `customer` (
-  `customer_id` int NOT NULL,
-  `customer_name` varchar(255) DEFAULT NULL,
-  `admin_flag` tinyint(1) DEFAULT NULL,
+  `customer_id` bigint NOT NULL,
+  `customer_name` varchar(255) NOT NULL,
   `remark` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`customer_id`)
+  PRIMARY KEY (`customer_id`),
+  UNIQUE KEY `customer_customer_id_uindex` (`customer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -49,8 +49,9 @@ DROP TABLE IF EXISTS `health`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `health` (
   `managed_id` int NOT NULL AUTO_INCREMENT,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `customer_id` int DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `customer_id` bigint NOT NULL,
+  `normal` tinyint(1) DEFAULT NULL,
   `cough` tinyint(1) DEFAULT NULL,
   `choking` tinyint(1) DEFAULT NULL,
   `nose` tinyint(1) DEFAULT NULL,
@@ -63,8 +64,9 @@ CREATE TABLE `health` (
   `dysosmia` tinyint(1) DEFAULT NULL,
   `remark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`managed_id`),
+  UNIQUE KEY `health_managed_id_uindex` (`managed_id`),
   KEY `customer_id` (`customer_id`),
-  CONSTRAINT `health_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`)
+  CONSTRAINT `health_customer_customer_id_fk` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -87,12 +89,12 @@ DROP TABLE IF EXISTS `temp`;
 CREATE TABLE `temp` (
   `managed_id` int NOT NULL AUTO_INCREMENT,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `customer_id` int DEFAULT NULL,
+  `customer_id` bigint NOT NULL,
   `temperature` int DEFAULT NULL,
   `remark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`managed_id`),
   KEY `customer_id` (`customer_id`),
-  CONSTRAINT `temp_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`)
+  CONSTRAINT `temp_customer_customer_id_fk` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -114,4 +116,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-11-26 14:40:09
+-- Dump completed on 2020-12-10 15:57:37
