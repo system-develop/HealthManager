@@ -1,4 +1,3 @@
-import discord
 import json
 import random
 import datetime
@@ -7,6 +6,7 @@ import mysql.connector as db
 import config
 from urllib.parse import urlparse
 
+import discord
 from discord.ext import commands
 from discord.utils import find
 intents = discord.Intents.all()
@@ -34,7 +34,6 @@ link_regex = re.compile(
     r'/(?P<channel_id>[0-9]{15,21})/(?P<message_id>[0-9]{15,21})/?$'
 )
 
-#Bot起動
 client = discord.Client()
 
 random_contents = [
@@ -53,7 +52,7 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content == "!health 😄": #!healthから始まるコマンドを１つのmessage.contentにまとめる
+    if message.content == "!health 😄":
         content = random.choice(random_contents)
         # メッセージが送られてきたチャンネルに送る
         await message.channel.send(content)
@@ -61,13 +60,13 @@ async def on_message(message):
 
         try:
             customer = [
-                (str(message.author.id), 0, 'テスト')
+                (message.author.id(), message.author.display_name(), 0, 'テスト')
             ]
             health = [
-                (datetime.datetime.today(), )
+                (str(message.author.id), 1)
             ]
             temp = [
-                discord.Message.created_at
+                (discord.Message.created_at)
             ]
             cur.executemany('insert into customer (customer_name, admin_flag, remark) VALUES (%s, %s, %s)', customer)
             # cur.executemany('insert into health () VALUES (%s, %s, %s)', customer)
