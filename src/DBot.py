@@ -197,6 +197,20 @@ async def on_message(message):
         \n 味覚異常 👅\
         \n 嗅覚異常 👃```')
 
+# temp
+@bot.command()
+async def temp(ctx, arg):
+    
+    if float(arg) < 35 or float(arg) > 41:
+        # print("aacc")
+        embed = discord.Embed(title="体温入力", color=0xdc2502)
+        embed.add_field(name='エラー ', value=f'{arg}は無効の体温数値です。内容を再確認してください。')
+        await ctx.send(embed = embed)
+    else:
+        embed = discord.Embed(title="体温入力", color=0x3cd070)
+        embed.add_field(name='送信できました。', value='一日に2回以上送った場合は最後のメッセージのみが有効です。')
+        await ctx.send(embed = embed)
+
 
 client.run(config.TKN)
 cur.close()
