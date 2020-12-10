@@ -64,7 +64,6 @@ CREATE TABLE `health` (
   `dysosmia` tinyint(1) DEFAULT NULL,
   `remark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`managed_id`),
-  UNIQUE KEY `health_managed_id_uindex` (`managed_id`),
   KEY `customer_id` (`customer_id`),
   CONSTRAINT `health_customer_customer_id_fk` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -116,4 +115,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-10 15:57:37
+-- Dump completed on 2020-12-10 16:15:14
