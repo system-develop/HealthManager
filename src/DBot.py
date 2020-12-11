@@ -1,11 +1,6 @@
-import json
-import random
-import datetime
-import re
+import json, random, datetime, re, config
 import mysql.connector as db
-import config
 from urllib.parse import urlparse
-
 import discord
 from discord.ext import commands
 from discord.utils import find
@@ -14,13 +9,13 @@ intents.members = True
 
  # コネクションの作成
 conn = db.connect(
-    host = config.HST,
-    port = config.PRT,
-    user = config.USN,
-    password = config.PSW,
-    database = config.DBS
+    host=config.HST,
+    port=config.PRT,
+    user=config.USN,
+    password=config.PSW,
+    database=config.DBS
 )
-    
+
 #接続再試行
 conn.ping(reconnect=True)
 #接続確認
@@ -42,9 +37,11 @@ random_contents = [
     "(｀･ω･´)",
 ]
 
+
 @client.event
 async def on_ready():
     print('私は {0.user} です。'.format(client))
+
 
 @client.event
 async def on_message(message):
@@ -54,23 +51,18 @@ async def on_message(message):
 
     if message.content == "!health 😄":
         content = random.choice(random_contents)
-        # メッセージが送られてきたチャンネルに送る
         await message.channel.send(content)
-        print("%d" % (message.author.id))
+        print(message.author.id)
 
         try:
             customer = [
-                (message.author.id, message.author.display_name,　'テスト')
+                (message.author.id, message.author.display_name, 'テスト')
             ]
             health = [
-                (str(message.author.id), 1)
-            ]
-            temp = [
-                (discord.Message.created_at)
+                (message.author.id, 1, 'テスト')
             ]
             cur.executemany('insert ignore into customer (customer_id, customer_name, remark) VALUES (%s, %s, %s)', customer)
-            # cur.executemany('insert into health () VALUES (%s, %s, %s)', customer)
-            # cur.executemany('insert into temp () VALUES (%s, %s, %s)', customer)
+            cur.executemany('insert into health (customer_id, normal, remark) VALUES (%s, %s, %s)', health)
             conn.commit()
 
         except:
@@ -79,9 +71,16 @@ async def on_message(message):
 
     elif message.content == "!health 😷":
         await message.channel.send('咳メッセージ')
-        print("%d" % (message.author.id))
+        print(message.author.id)
         try:
-            cur.execute('INSERT INTO health(manager_id,date_create,customer_id,cough) VALUES (default,sysdate,%d,yes);')
+            customer = [
+                (message.author.id, message.author.display_name, 'テスト')
+            ]
+            health = [
+                (message.author.id, 1, 'テスト')
+            ]
+            cur.executemany('insert ignore into customer (customer_id, customer_name, remark) VALUES (%s, %s, %s)', customer)
+            cur.executemany('insert into health (customer_id, cough, remark) VALUES (%s, %s, %s)', health)
             conn.commit()
         except:
             conn.rollback()
@@ -89,9 +88,16 @@ async def on_message(message):
 
     elif message.content == "!health 🤐":
         await message.channel.send('息苦しさメッセージ')
-        print("%d" % (message.author.id))
+        print(message.author.id)
         try:
-            cur.execute('INSERT INTO health(manager_id,date_create,customer_id,choking) VALUES (default,sysdate,%d,yes);')
+            customer = [
+                (message.author.id, message.author.display_name, 'テスト')
+            ]
+            health = [
+                (message.author.id, 1, 'テスト')
+            ]
+            cur.executemany('insert ignore into customer (customer_id, customer_name, remark) VALUES (%s, %s, %s)', customer)
+            cur.executemany('insert into health (customer_id, choking, remark) VALUES (%s, %s, %s)', health)
             conn.commit()
         except:
             conn.rollback()
@@ -99,9 +105,16 @@ async def on_message(message):
 
     elif message.content == "!health 🤧":
         await message.channel.send('鼻水メッセージ')
-        print("%d" % (message.author.id))
+        print(message.author.id)
         try:
-            cur.execute('INSERT INTO health(manager_id,date_create,customer_id,nose) VALUES (default,sysdate,%d,yes);')
+            customer = [
+                (message.author.id, message.author.display_name, 'テスト')
+            ]
+            health = [
+                (message.author.id, 1, 'テスト')
+            ]
+            cur.executemany('insert ignore into customer (customer_id, customer_name, remark) VALUES (%s, %s, %s)', customer)
+            cur.executemany('insert into health (customer_id, nose, remark) VALUES (%s, %s, %s)', health)
             conn.commit()
         except:
             conn.rollback()
@@ -109,9 +122,16 @@ async def on_message(message):
 
     elif message.content == "!health 😵":
         await message.channel.send('喉の痛みメッセージ')
-        print("%d" % (message.author.id))
+        print(message.author.id)
         try:
-            cur.execute('INSERT INTO health(manager_id,date_create,customer_id,throat) VALUES (default,sysdate,%d,yes);')
+            customer = [
+                (message.author.id, message.author.display_name, 'テスト')
+            ]
+            health = [
+                (message.author.id, 1, 'テスト')
+            ]
+            cur.executemany('insert ignore into customer (customer_id, customer_name, remark) VALUES (%s, %s, %s)', customer)
+            cur.executemany('insert into health (customer_id, throat, remark) VALUES (%s, %s, %s)', health)
             conn.commit()
         except:
             conn.rollback()
@@ -119,9 +139,16 @@ async def on_message(message):
 
     elif message.content == "!health 👿":
         await message.channel.send('体のだるさメッセージ')
-        print("%d" % (message.author.id))
+        print(message.author.id)
         try:
-            cur.execute('INSERT INTO health(manager_id,date_create,customer_id,listness) VALUES (default,sysdate,%d,yes);')
+            customer = [
+                (message.author.id, message.author.display_name, 'テスト')
+            ]
+            health = [
+                (message.author.id, 1, 'テスト')
+            ]
+            cur.executemany('insert ignore into customer (customer_id, customer_name, remark) VALUES (%s, %s, %s)', customer)
+            cur.executemany('insert into health (customer_id, tired, remark) VALUES (%s, %s, %s)', health)
             conn.commit()
         except:
             conn.rollback()
@@ -129,9 +156,16 @@ async def on_message(message):
 
     elif message.content == "!health 🥶":
         await message.channel.send('腹痛メッセージ')
-        print("%d" % (message.author.id))
+        print(message.author.id)
         try:
-            cur.execute('INSERT INTO health(manager_id,date_create,customer_id,stomachache) VALUES (default,sysdate,%d,yes);')
+            customer = [
+                (message.author.id, message.author.display_name, 'テスト')
+            ]
+            health = [
+                (message.author.id, 1, 'テスト')
+            ]
+            cur.executemany('insert ignore into customer (customer_id, customer_name, remark) VALUES (%s, %s, %s)', customer)
+            cur.executemany('insert into health (customer_id, stomachache, remark) VALUES (%s, %s, %s)', health)
             conn.commit()
         except:
             conn.rollback()
@@ -139,9 +173,16 @@ async def on_message(message):
 
     elif message.content == "!health 🤢":
         await message.channel.send('下痢メッセージ')
-        print("%d" % (message.author.id))
+        print(message.author.id)
         try:
-            cur.execute('INSERT INTO health(manager_id,date_create,customer_id,diarrhea) VALUES (default,sysdate,%d,yes);')
+            customer = [
+                (message.author.id, message.author.display_name, 'テスト')
+            ]
+            health = [
+                (message.author.id, 1, 'テスト')
+            ]
+            cur.executemany('insert ignore into customer (customer_id, customer_name, remark) VALUES (%s, %s, %s)', customer)
+            cur.executemany('insert into health (customer_id, diarrhea, remark) VALUES (%s, %s, %s)', health)
             conn.commit()
         except:
             conn.rollback()
@@ -149,9 +190,16 @@ async def on_message(message):
 
     elif message.content == "!health 🤕":
         await message.channel.send('頭痛メッセージ')
-        print("%d" % (message.author.id))
+        print(message.author.id)
         try:
-            cur.execute('INSERT INTO health(manager_id,date_create,customer_id,headache) VALUES (default,sysdate,%d,yes);')
+            customer = [
+                (message.author.id, message.author.display_name, 'テスト')
+            ]
+            health = [
+                (message.author.id, 1, 'テスト')
+            ]
+            cur.executemany('insert ignore into customer (customer_id, customer_name, remark) VALUES (%s, %s, %s)', customer)
+            cur.executemany('insert into health (customer_id, headache, remark) VALUES (%s, %s, %s)', health)
             conn.commit()
         except:
             conn.rollback()
@@ -159,9 +207,16 @@ async def on_message(message):
 
     elif message.content == "!health 👅":
         await message.channel.send('味覚異常メッセージ')
-        print("%d" % (message.author.id))
+        print(message.author.id)
         try:
-            cur.execute('INSERT INTO health(manager_id,date_create,customer_id,dysgeusia) VALUES (default,sysdate,%d,yes);')
+            customer = [
+                (message.author.id, message.author.display_name, 'テスト')
+            ]
+            health = [
+                (message.author.id, 1, 'テスト')
+            ]
+            cur.executemany('insert ignore into customer (customer_id, customer_name, remark) VALUES (%s, %s, %s)', customer)
+            cur.executemany('insert into health (customer_id, dysgeusia, remark) VALUES (%s, %s, %s)', health)
             conn.commit()
         except:
             conn.rollback()
@@ -169,9 +224,16 @@ async def on_message(message):
 
     elif message.content == "!health 👃":
         await message.channel.send('嗅覚異常メッセージ')
-        print("%d" % (message.author.id))
+        print(message.author.id)
         try:
-            cur.execute('INSERT INTO health(manager_id,date_create,customer_id,dysosmia) VALUES (default,sysdate,%d,yes);')
+            customer = [
+                (message.author.id, message.author.display_name, 'テスト')
+            ]
+            health = [
+                (message.author.id, 1, 'テスト')
+            ]
+            cur.executemany('insert ignore into customer (customer_id, customer_name, remark) VALUES (%s, %s, %s)', customer)
+            cur.executemany('insert into health (customer_id, dysosmia, remark) VALUES (%s, %s, %s)', health)
             conn.commit()
         except:
             conn.rollback()
