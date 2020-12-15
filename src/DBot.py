@@ -260,7 +260,7 @@ async def on_message(message):
         \n 嗅覚異常 👃```')
 
 # temp
-@bot.command()
+@client.event
 async def temp(ctx, arg):
     
     if float(arg) < 35 or float(arg) > 41:
