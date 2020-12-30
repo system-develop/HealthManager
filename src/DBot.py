@@ -70,7 +70,7 @@ async def on_message(message):
             raise
 
     elif message.content == "!health 😷":
-        await message.channel.send('咳メッセージ')
+        await message.channel.send('風邪を引いてしまいましたか？マスクの着用を徹底すると共に、うがいを定期的に行うようにしましょう。')
         print(message.author.id)
         try:
             customer = [
@@ -87,7 +87,7 @@ async def on_message(message):
             raise
 
     elif message.content == "!health 🤐":
-        await message.channel.send('息苦しさメッセージ')
+        await message.channel.send('無理はせず、しんどいと感じたらすぐに申し出て早退するなど対処をとって下さい。')
         print(message.author.id)
         try:
             customer = [
@@ -104,7 +104,7 @@ async def on_message(message):
             raise
 
     elif message.content == "!health 🤧":
-        await message.channel.send('鼻水メッセージ')
+        await message.channel.send('気温の変化に追いつけていますか？衣類や布団などをその時の気温に合わせて調節すると共に、ひどいと感じたときは耳鼻科を受診するなどして下さい')
         print(message.author.id)
         try:
             customer = [
@@ -121,7 +121,7 @@ async def on_message(message):
             raise
 
     elif message.content == "!health 😵":
-        await message.channel.send('喉の痛みメッセージ')
+        await message.channel.send('喉を酷使した覚えがありますか？うがいを徹底すると共に、今後の体調に注意して下さい。')
         print(message.author.id)
         try:
             customer = [
@@ -138,7 +138,7 @@ async def on_message(message):
             raise
 
     elif message.content == "!health 👿":
-        await message.channel.send('体のだるさメッセージ')
+        await message.channel.send('無理はせず、しんどいと感じたらすぐに申し出て早退するなど対処をとって下さい。')
         print(message.author.id)
         try:
             customer = [
@@ -155,7 +155,7 @@ async def on_message(message):
             raise
 
     elif message.content == "!health 🥶":
-        await message.channel.send('腹痛メッセージ')
+        await message.channel.send('お腹を冷やしていませんか？冬は勿論、夏もお腹に布団を掛けて寝ないと腹痛の元になります。')
         print(message.author.id)
         try:
             customer = [
@@ -172,7 +172,7 @@ async def on_message(message):
             raise
 
     elif message.content == "!health 🤢":
-        await message.channel.send('下痢メッセージ')
+        await message.channel.send('できる限り消化の良いものを摂って下さい。また、使用した後の便器はペーパーで拭くなどして、消毒を行って下さい')
         print(message.author.id)
         try:
             customer = [
@@ -189,7 +189,7 @@ async def on_message(message):
             raise
 
     elif message.content == "!health 🤕":
-        await message.channel.send('頭痛メッセージ')
+        await message.channel.send('無理はせず、しんどいと感じたらすぐに申し出て早退するなど対処をとって下さい。')
         print(message.author.id)
         try:
             customer = [
@@ -206,7 +206,7 @@ async def on_message(message):
             raise
 
     elif message.content == "!health 👅":
-        await message.channel.send('味覚異常メッセージ')
+        await message.channel.send('担任の先生または保健所に相談して下さい。また、マスクや手洗いうがいなど、対策はいつも以上に徹底するようお願いします。')
         print(message.author.id)
         try:
             customer = [
@@ -223,7 +223,7 @@ async def on_message(message):
             raise
 
     elif message.content == "!health 👃":
-        await message.channel.send('嗅覚異常メッセージ')
+        await message.channel.send('担任の先生または保健所に相談して下さい。また、マスクや手洗いうがいなど、対策はいつも以上に徹底するようお願いします。')
         print(message.author.id)
         try:
             customer = [
