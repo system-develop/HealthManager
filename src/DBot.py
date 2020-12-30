@@ -262,7 +262,7 @@ async def on_message(message):
 # temp
 @client.event
 async def temp(ctx, arg):
-    
+   
     if float(arg) < 35 or float(arg) > 41:
         # print("aacc")
         embed = discord.Embed(title="体温入力", color=0xdc2502)
@@ -272,6 +272,19 @@ async def temp(ctx, arg):
         embed = discord.Embed(title="体温入力", color=0x3cd070)
         embed.add_field(name='送信できました。', value='一日に2回以上送った場合は最後のメッセージのみが有効です。')
         await ctx.send(embed = embed)
+        try:
+            customer = [
+                (message.author.id, message.author.display_name, 'テスト')
+            ]
+            temp = [
+                (message.author.id, {arg}, 'テスト')
+            ]
+            cur.executemany('insert ignore into customer (customer_id, customer_name, remark) VALUES (%s, %s, %s)', customer)
+            cur.executemany('insert into temp (customer_id, temperature, remark) VALUES (%s, %s, %s)', temp)
+            conn.commit()
+        except:
+            conn.rollback()
+            raise
 
 
 client.run(config.TKN)
