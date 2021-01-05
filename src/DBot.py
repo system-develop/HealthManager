@@ -261,7 +261,7 @@ async def on_message(message):
 
 # temp
 @client.event
-async def temp(ctx, arg):
+async def temp(ctx, arg, message):
    
     if float(arg) < 35 or float(arg) > 41:
         # print("aacc")
