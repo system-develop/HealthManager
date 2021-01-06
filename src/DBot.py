@@ -4,7 +4,7 @@ from urllib.parse import urlparse
 import discord
 from discord.ext import commands
 from discord.utils import find
-intents = discord.Intents.all()
+intents = discord.Intents.default()
 intents.members = True
 
  # コネクションの作成
@@ -30,6 +30,8 @@ link_regex = re.compile(
 )
 
 client = discord.Client()
+
+bot = commands.Bot(command_prefix='!')
 
 random_contents = [
     "元気そうで何よりです。その調子で健康を維持しましょう",
@@ -260,18 +262,20 @@ async def on_message(message):
         \n 嗅覚異常 👃```')
 
 # temp
-@client.event
+@bot.command()
 async def temp(ctx, arg, message):
    
     if float(arg) < 35 or float(arg) > 41:
         # print("aacc")
-        embed = discord.Embed(title="体温入力", color=0xdc2502)
-        embed.add_field(name='エラー ', value=f'{arg}は無効の体温数値です。内容を再確認してください。')
-        await ctx.send(embed = embed)
+        await ctx.send('エラー \n無効の体温数値です。内容を再確認してください。')
+        #embed = discord.Embed(title="体温入力", color=0xdc2502)
+        #embed.add_field(name='エラー ', value=f'{arg}は無効の体温数値です。内容を再確認してください。')
+        #await ctx.send(embed = embed)
     else:
-        embed = discord.Embed(title="体温入力", color=0x3cd070)
-        embed.add_field(name='送信できました。', value='一日に2回以上送った場合は最後のメッセージのみが有効です。')
-        await ctx.send(embed = embed)
+        await ctx.send('送信できました \n一日に2回以上送った場合は最後のメッセージのみが有効です。')
+        #embed = discord.Embed(title="体温入力", color=0x3cd070)
+        #embed.add_field(name='送信できました。', value='一日に2回以上送った場合は最後のメッセージのみが有効です。')
+        #await ctx.send(embed = embed)
         try:
             customer = [
                 (message.author.id, message.author.display_name, 'テスト')
@@ -285,7 +289,6 @@ async def temp(ctx, arg, message):
         except:
             conn.rollback()
             raise
-
 
 client.run(config.TKN)
 cur.close()
