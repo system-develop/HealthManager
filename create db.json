@@ -1,0 +1,34 @@
+{
+    "customer" : ["CREATE TABLE `customer` (",
+        " `customer_id` bigint not null auto_increment primary key,",
+        " `customer_name` varchar (255),",
+        " `admin_flag` boolean,",
+        " `remark` varchar (255))ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;"], 
+
+    "health" : ["CREATE TABLE `health` (",
+    " `managed_id` int not null auto_increment primary key,",
+    " `created_at` date default '0000-00-00',",
+    " `customer_id` bigint,",
+    " `fine` boolean,",
+    " `cough` boolean,",
+    " `choking` boolean,",
+    " `nose` boolean,",
+    " `throat` boolean,",
+    " `tired` boolean,",
+    " `stomachache` boolean,",
+    " `diarrhea` boolean,",
+    " `headache` boolean,",
+    " `dysgeusia` boolean,",
+    " `dysosmia` boolean,",
+    " `remark` varchar(255),",
+    " CONSTRAINT `health_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`))ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;"],
+
+    "temp" : ["CREATE TABLE `temp` (",
+    " `managed_id` int not null auto_increment primary key,",
+    " `created_at` date default '0000-00-00',",
+    " `customer_id` bigint,",
+    " `temperature` float,",
+    " `remark` varchar(255),",
+    " CONSTRAINT `temp_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customer` (`customer_id`))ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;"]
+}
+
