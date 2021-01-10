@@ -4,6 +4,7 @@ from urllib.parse import urlparse
 import discord
 from discord.ext import commands
 from discord.utils import find
+from distutils.util import strtobool
 intents = discord.Intents.default()
 intents.members = True
 
@@ -41,6 +42,8 @@ random_contents = [
 
 @bot.event
 async def on_message(message):
+
+    await bot.process_commands(message)
 
     if message.content == "!health 😄":
         content = random.choice(random_contents)
@@ -232,43 +235,8 @@ async def on_message(message):
             conn.rollback()
             raise
 
-    #if message.content == '!cmdlist':
-    #    await message.channel.send\
-    #    ('``` !health_対応する絵文字 → 現在の体調を絵文字で表す。\
-    #    \n !temp_〇〇.〇 → 現在の体温を記録する。\
-    #    \n !elist → !healthの対応する絵文字を表示する。\
-    #    \n !mylist → 自分が投稿した過去の情報を返す。```')
-
-    #if message.content == '!elist':
-    #    await message.channel.send\
-    #    ('```異常なし 😄\
-    #    \n 咳 😷\
-    #    \n 息苦しさ 🤐\
-    #    \n 鼻水 🤧\
-    #    \n 喉の痛み 😵\
-    #    \n 体のだるさ 👿\
-    #    \n 腹痛 🥶\
-    #    \n 下痢 🤢\
-    #    \n 頭痛 🤕\
-    #    \n 味覚異常 👅\
-    #    \n 嗅覚異常 👃```')
-
-@bot.command()
-async def mylist(ctx, arg = None):
-    embed = discord.Embed(title="mylist", description=f"過去の情報", color=0xa3a3a3, timestamp=ctx.message.created_at)
-    if arg is None:
-        cursor = conn.cursor()
-        sql_query = "select t.created_at, t.temperature, if(h.fine > 0, '😄 異常なし', ''), if(h.cough > 0, '😷咳', ''), if(h.choking > 0, '🤐息苦しさ', ''), if(h.nose > 0, '🤧鼻水', ''), if(h.throat > 0, '😫喉の痛み', ''), if(h.tired > 0, '😔体のだるさ', ''), if(h.stomachache > 0, '😰腹痛', ''), if(h.diarrhea > 0, '😖下痢', ''), if(h.headache > 0, '🤕頭痛', ''), if(h.dysgeusia > 0, '👅味覚異常', ''), if(h.dysosmia > 0, '👃嗅覚異常', '') from temp as t inner join health as h on t.customer_id = {} and t.created_at = h.created_at order by t.created_at".format(ctx.author.id)
-        # sql_query = "select created_at, temperature from temp where customer_id = {}".format(ctx.author.id)
-        cursor.execute(sql_query)
-        mlist = cursor.fetchall()
-        # print(mlist)
-        for x in mlist:
-            # print(
-            embed.add_field(name=f'{x[0]}', value=f'体温：{x[1]} || 体調： {x[2]} {x[3]} {x[4]} {x[5]} {x[6]} {x[7]} {x[8]} {x[9]} {x[10]} {x[11]} {x[12]}', inline=False)
-        await ctx.send(embed = embed)
-    else:
-        print("not none")
+# @bot.command()
+# async def mylist():
 
 @bot.command()
 async def elist(message):
@@ -293,10 +261,8 @@ async def cmdlist(message):
         \n !elist → !healthの対応する絵文字を表示する。\
         \n !mylist → 自分が投稿した過去の情報を返す。```')
 
-# temp
 @bot.command()
 async def temp(ctx, arg, message):
-   
     if float(arg) < 35 or float(arg) > 41:
         await ctx.send('エラー \n無効の体温数値です。内容を再確認してください。')
     else:
