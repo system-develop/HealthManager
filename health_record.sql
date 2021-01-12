@@ -13,8 +13,6 @@ DROP TABLE IF EXISTS `customer`;
 CREATE TABLE `customer` (
   `customer_id` bigint NOT NULL,
   `customer_name` varchar(255) NOT NULL,
-  `delete_flag` tinyint(1) NOT NULL DEFAULT '0',
-  `deleted_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `remark` varchar(255) DEFAULT NULL,
   UNIQUE KEY `customer_customer_id_uindex` (`customer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -36,8 +34,6 @@ CREATE TABLE `health` (
   `headache` tinyint(1) DEFAULT NULL,
   `dysgeusia` tinyint(1) DEFAULT NULL,
   `dysosmia` tinyint(1) DEFAULT NULL,
-  `delete_flag` tinyint(1) NOT NULL DEFAULT '0',
-  `deleted_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `remark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`managed_id`),
   KEY `customer_id` (`customer_id`),
@@ -50,9 +46,7 @@ CREATE TABLE `temp` (
   `managed_id` int NOT NULL AUTO_INCREMENT,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `customer_id` bigint NOT NULL,
-  `temperature` int DEFAULT NULL,
-  `delete_flag` tinyint(1) NOT NULL,
-  `deleted_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `temperature` double(3,1) DEFAULT NULL,
   `remark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`managed_id`),
   KEY `customer_id` (`customer_id`),
