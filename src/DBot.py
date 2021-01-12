@@ -247,11 +247,11 @@ async def mylist_health(ctx,arg = None):
     embed = discord.Embed(title="体調の過去情報", description=f"{ctx.author.name} さんが投稿した情報です。", color=0xa3a3a3)
     if arg is None:
         #sql_query = "select created_at,remark from health where customer_id = {}".format(ctx.author.id)
-        sql_query = "select created_at, if(normal > 0, '😄 異常なし', ''), if(cough > 0, '😷咳', ''), if(choking > 0, '🤐息苦しさ', ''), if(nose > 0, '🤧鼻水', ''), if(throat > 0, '😫喉の痛み', ''), if(tired > 0, '😔体のだるさ', ''), if(stomachache > 0, '😰腹痛', ''), if(diarrhea > 0, '😖下痢', ''), if(headache > 0, '🤕頭痛', ''), if(dysgeusia > 0, '👅味覚異常', ''), if(dysosmia > 0, '👃嗅覚異常', '') from health where customer_id = {} order by created_at limit 100".format(ctx.author.id)
+        sql_query = "select created_at, if(normal > 0, '😄 異常なし', ''), if(cough > 0, '😷咳', ''), if(choking > 0, '🤐息苦しさ', ''), if(nose > 0, '🤧鼻水', ''), if(throat > 0, '😵喉の痛み', ''), if(tired > 0, '👿体のだるさ', ''), if(stomachache > 0, '🥶腹痛', ''), if(diarrhea > 0, '🤢下痢', ''), if(headache > 0, '🤕頭痛', ''), if(dysgeusia > 0, '👅味覚異常', ''), if(dysosmia > 0, '👃嗅覚異常', '') from health where customer_id = {} order by created_at limit 100".format(ctx.author.id)
         cur.execute(sql_query)
-        hlist = cur.fetchmany()
+        hlist = cur.fetchall()
         for x in hlist:
-            embed.add_field(name='健康状態',value=f'{x[0]}:{x[1]}',inline=False)
+            embed.add_field(name='健康状態',value=f'{x[0]}:{x[1]} {x[2]} {x[3]} {x[4]} {x[5]} {x[6]} {x[7]} {x[8]} {x[9]} {x[10]} {x[11]}',inline=False)
         await ctx.send(embed=embed)
     else:
         print("not none")
@@ -260,9 +260,9 @@ async def mylist_health(ctx,arg = None):
 async def mylist_temp(ctx,arg = None):
     embed = discord.Embed(title="体温の過去情報", description=f"{ctx.author.name} さんが投稿した情報です。", color=0xa3a3a3)
     if arg is None:
-        sql_query = "select created_at,temperature from temp where customer_id = {}order by created_at limit 100".format(ctx.author.id)
+        sql_query = "select created_at,temperature from temp where customer_id = {} order by created_at limit 100".format(ctx.author.id)
         cur.execute(sql_query)
-        tlist = cur.fetchmany()
+        tlist = cur.fetchall()
         for x in tlist:
             embed.add_field(name='体温状態',value=f'{x[0]}:{x[1]}',inline=False)
         await ctx.send(embed=embed)
