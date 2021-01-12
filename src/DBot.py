@@ -1,10 +1,11 @@
-import json, random, datetime, re, config
+import json, random, re, config
 import mysql.connector as db
 from urllib.parse import urlparse
 import discord
 from discord.ext import commands
 from discord.utils import find
 from distutils.util import strtobool
+from datetime import date, datetime, timedelta
 intents = discord.Intents.default()
 intents.members = True
 
@@ -237,8 +238,9 @@ async def on_message(message):
 
 @bot.command()
 async def mylist(message):
+    await message.channel.send\
     ('``` !mylist_health → 自分が投稿した体調の過去情報を返す。\
-        \n !mylist_temp → 自分が投稿した体温の過去情報を返す```')
+        \n !mylist_temp → 自分が投稿した体温の過去情報を返す。```')
 
 @bot.command()
 async def mylist_health(ctx,arg = None):
@@ -258,7 +260,7 @@ async def mylist_health(ctx,arg = None):
 async def mylist_temp(ctx,arg = None):
     embed = discord.Embed(title="体温の過去情報", description=f"{ctx.author.name} さんが投稿した情報です。", color=0xa3a3a3)
     if arg is None:
-        sql_query = "select created_at,temperature from temp where customer_id = {}".format(ctx.author.id)
+        sql_query = "select created_at,temperature from temp where customer_id = {}order by created_at limit 100".format(ctx.author.id)
         cur.execute(sql_query)
         tlist = cur.fetchmany()
         for x in tlist:
@@ -286,30 +288,26 @@ async def elist(message):
 async def cmdlist(message):
     await message.channel.send\
         ('``` !health_対応する絵文字 → 現在の体調を絵文字で表す。\
-        \n !temp_〇〇.〇 → 現在の体温を記録する。\
+        \n !temp_〇〇.〇 → 現在の体温を記録する。(初めて入力する人は、!healthから入力を始めて下さい)\
         \n !elist → !healthの対応する絵文字を表示する。\
         \n !mylist_health → 自分が投稿した体調の過去情報を返す。\
-        \n !mylist_temp → 自分が投稿した体温の過去情報を返す```')
+        \n !mylist_temp → 自分が投稿した体温の過去情報を返す。```')
 
 @bot.command()
-async def temp(ctx, arg, message):
+async def temp(ctx, arg):
     if float(arg) < 35 or float(arg) > 41:
-        await ctx.send('エラー \n無効の体温数値です。内容を再確認してください。')
+        embed = discord.Embed(title="体温入力", color=0xdc2502)
+        embed.add_field(name='エラー ', value=f'{arg}は無効の体温数値です。内容を再確認してください。')
+        await ctx.send(embed = embed)
     else:
-        await ctx.send('送信できました \n一日に2回以上送った場合は最後のメッセージのみが有効です。')
-        try:
-            customer = [
-                (message.author.id, message.author.display_name)
-            ]
-            temp = [
-                (message.author.id, {arg})
-            ]
-            cur.executemany('insert ignore into customer (customer_id, customer_name) VALUES (%s, %s)', customer)
-            cur.executemany('insert into temp (customer_id, temperature) VALUES (%s, %s)', temp)
-            conn.commit()
-        except:
-            conn.rollback()
-            raise
+        embed = discord.Embed(title="体温入力", color=0x3cd070)
+        embed.add_field(name='送信できました。', value='もし発熱がある場合、登校は控えるようお願いします')
+
+        cur.execute("select * from temp where customer_id = {}".format(ctx.author.id))
+        cur.fetchall()
+        cur.execute("insert into temp (customer_id, temperature) VALUES ({}, {})".format(ctx.author.id,arg))
+        conn.commit()
+        await ctx.send(embed = embed)
 
 bot.run(TOKEN)
 cur.close()
