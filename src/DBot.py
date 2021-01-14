@@ -239,11 +239,11 @@ async def on_message(message):
 @bot.command()
 async def mylist(message):
     await message.channel.send\
-    ('``` !mylist_health → 自分が投稿した体調の過去情報を返す。\
-        \n !mylist_temp → 自分が投稿した体温の過去情報を返す。```')
+    ('``` !hmylist → 自分が投稿した体調の過去情報を返す。\
+        \n !tmylist → 自分が投稿した体温の過去情報を返す。```')
 
 @bot.command()
-async def mylist_health(ctx,arg = None):
+async def hmylist(ctx,arg = None):
     embed = discord.Embed(title="体調の過去情報", description=f"{ctx.author.name} さんが投稿した情報です。", color=0xa3a3a3)
     if arg is None:
         #sql_query = "select created_at,remark from health where customer_id = {}".format(ctx.author.id)
@@ -257,14 +257,14 @@ async def mylist_health(ctx,arg = None):
         print("not none")
 
 @bot.command()
-async def mylist_temp(ctx,arg = None):
+async def tmylist(ctx,arg = None):
     embed = discord.Embed(title="体温の過去情報", description=f"{ctx.author.name} さんが投稿した情報です。", color=0xa3a3a3)
     if arg is None:
         sql_query = "select created_at,temperature from temp where customer_id = {} order by created_at limit 100".format(ctx.author.id)
         cur.execute(sql_query)
         tlist = cur.fetchall()
         for x in tlist:
-            embed.add_field(name='体温状態',value=f'{x[0]}:{x[1]}',inline=False)
+            embed.add_field(name='体温状態',value=f'{x[0]}◎{x[1]}',inline=False)
         await ctx.send(embed=embed)
     else:
         print("not none")
@@ -290,12 +290,12 @@ async def cmdlist(message):
         ('``` !health_対応する絵文字 → 現在の体調を絵文字で表す。\
         \n !temp_〇〇.〇 → 現在の体温を記録する。(初めて入力する人は、!healthから入力を始めて下さい)\
         \n !elist → !healthの対応する絵文字を表示する。\
-        \n !mylist_health → 自分が投稿した体調の過去情報を返す。\
-        \n !mylist_temp → 自分が投稿した体温の過去情報を返す。```')
+        \n !hmylist → 自分が投稿した体調の過去情報を返す。\
+        \n !tmylist → 自分が投稿した体温の過去情報を返す。```')
 
 @bot.command()
 async def temp(ctx, arg):
-    if float(arg) < 35 or float(arg) > 41:
+    if float(arg) < 34 or float(arg) > 45:
         embed = discord.Embed(title="体温入力", color=0xdc2502)
         embed.add_field(name='エラー ', value=f'{arg}は無効の体温数値です。内容を再確認してください。')
         await ctx.send(embed = embed)
