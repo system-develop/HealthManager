@@ -1,4 +1,7 @@
-import json, random, re, config
+import json
+import random
+import config
+import re
 import mysql.connector as db
 from urllib.parse import urlparse
 import discord
@@ -40,6 +43,19 @@ random_contents = [
     "今の時期、健康第一が何よりモットーです。その心がけをこれからも",
     "(｀･ω･´)",
 ]
+
+@bot.event
+async def on_ready():
+    print("bot is ready")
+
+@bot.event
+async def on_guild_join(guild):
+    embed = discord.Embed(title='こんにちは！、Heath Managerです。\nよろしくお願いいたします。', color=0xdc2502)
+    for channel in guild.text_channels:
+        if channel.permissions_for(guild.me).send_messages:
+            embed.add_field(name='まずは!cmdlistと!elistコマンドを実行してください。', value='また、サーバーメンバーによる入力は!healthからおこなって下さい。')
+        await channel.send(embed = embed)
+        break
 
 @bot.event
 async def on_message(message):
